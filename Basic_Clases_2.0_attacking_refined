@@ -1,0 +1,258 @@
+import random
+import math
+import time
+visionRange = 15
+
+
+
+class Unit:
+	def __init__(self, armor, damage, hp, name, coords):
+		self.armor = armor
+		self.damage = damage
+		self.hp = hp
+		self.maxHP = hp
+		self.name = name
+		self.coords = coords
+		allUnits.append(self)
+		#self.endurance = endurance
+		#self.energy = energy				
+
+	def PythagoreTeoreme(self, unit):
+		sidea = self.coords[0] - unit.coords[0]
+		if not sidea > 0:
+			sidea = sidea * -1 
+
+		sideb = self.coords[1] - unit.coords[1]
+		if not sideb > 0:
+			sideb = sideb * -1 
+		
+		csquare = (sidea ** 2) + (sideb ** 2)
+		sidec = math.sqrt(csquare)
+		return sidec
+	
+	def findPossibleTarget(self): 
+		allUnits.remove(self)			
+		lenght = len(allUnits)
+		for a in range(lenght):
+			if not self.PythagoreTeoreme(allUnits[a]) > visionRange:
+				targetsList.append(allUnits[a])
+		allUnits.append(self)
+		return targetsList
+
+	def chooseTarget(self):
+		possibleTargets = self.findPossibleTarget()
+		lowest = 1000
+		
+		target = False
+		
+		for a in range(len(possibleTargets)):
+			if possibleTargets[a].hp < lowest:
+				lowest = possibleTargets[a].hp
+				target = possibleTargets[a]
+		return target
+	def attack(self, unit = True):
+		target = self.chooseTarget() 
+		for a in range(1):
+			if target == False:
+				break
+			if unit == True:     #####  attack >>> chooseTarget >>> findPossibleTarget >>> PythagoreTeoreme
+				print "%s attacks %s" % (self.name, target.name)
+				target.takeDamage(self.damage)
+			else:
+				print "%s attacks %s" % (self.name, unit.name)
+				unit.takeDamage(self.damage)
+
+	def checkIfDead (self, hp, name):
+		if not hp > 0:
+			print "%s died" % (self.name)
+		
+	def takeDamage (self, damage):
+		print "%s taking damage" % (self.name)    ###TODO %s is taking damage from %s
+		self.hp -= damage - self.armor
+		self.checkIfDead(self.hp, self.name)
+	
+	def __str__(self):
+		toreturn = "%s: A:%d HP:%d at " % (self.name, self.armor, self.hp)
+		toreturn = toreturn + str(self.coords)
+		return toreturn
+class Bio():
+	pass
+	
+class Mech():
+	pass
+	
+class Armored():
+	pass
+		
+class Light():
+	pass
+
+class AirUnit():
+	pass
+
+class GroundUnit():
+	pass
+	
+class Ranged():
+	pass
+
+class Melee():
+	pass
+
+		
+		
+		
+		
+		
+class Plasmodiums(Unit):
+	def demotivation(self, target):
+		print "demotivating %s" % (target.name)
+
+class Plasmodium(Plasmodiums, GroundUnit):
+	a = 0
+	def __init__(self):
+	
+		Plasmodium.a += 1
+		
+		name = "Plasmodium_" + str(Plasmodium.a)
+		armor = 1
+		damage = 50 
+		health = 20
+		coords = [3, 20]
+		
+		Unit.__init__(self, armor, damage, health, name, coords)
+
+
+
+
+class HappyGreenPirates(Unit):
+	def motivating():
+		print "motivating"
+	
+class GreenPirate(HappyGreenPirates, GroundUnit):
+	a = 0
+	def __init__(self):
+	
+		GreenPirate.a += 1
+		
+		name = "Pirate_" + str(GreenPirate.a)
+		armor = 1
+		damage = 50 
+		health = 20
+		coords = [0, 0]
+		
+		Unit.__init__(self, armor, damage, health, name, coords)
+
+
+		
+		
+class ScorpionMans(Unit):
+	pass
+
+class Scorpion(ScorpionMans, Melee, GroundUnit):
+	a = 0
+	def __init__(self):
+		
+		Scorpion.a += 1
+		
+		name = "Scorpion_" + str(Scorpion.a)
+		armor = 1
+		damage = 50 
+		health = 20
+		coords = [3, 4]
+		
+		Unit.__init__(self, armor, damage, health, name, coords)
+		
+
+class Toshkoids(Unit):
+	def destruktivAura():
+		print "destrukting"
+	
+class Toshkoid(Toshkoids, GroundUnit):
+	a = 0
+	def __init__(self):
+		
+		Toshkoid.a += 1
+		
+		name = "Toshkoid_" + str(Toshkoid.a)
+		armor = 1
+		damage = 50 
+		health = 20
+		coords = [30, 40]
+		
+		Unit.__init__(self, armor, damage, health, name, coords)
+		
+class Electrones(Unit):
+	a = 0
+	shield = 0
+	def __init__(self, shield):
+	
+		self.shield = shield
+
+		
+	def takeDamage (self, damage):
+		if self.shield > 0:
+			self.shield -= damage - self.armor
+			if self.shield < 0:
+				self.hp += self.shield
+		self.shield = 0
+
+class Electrone(Electrones, GroundUnit):
+	a = 0
+	def __init__(self):
+		
+		Electrone.a += 1
+		
+		name = "Electrone_" + str(Electrone.a)
+		armor = 1
+		damage = 50 
+		health = 20
+		coords = [30, 40]
+		
+		Unit.__init__(self, armor, damage, health, name, coords)
+
+class Furries(Unit):
+	pass
+
+class Khajiit(Furries, GroundUnit):
+	a = 0
+	def __init__(self):
+		
+		Khajiit.a += 1
+		
+		name = "Khajiit_" + str(Khajiit.a)
+		armor = 1
+		damage = 50 
+		health = 20
+		coords = [30, 40]
+		
+		Unit.__init__(self, armor, damage, health, name, coords)
+		
+class Illuminats(Unit):
+	pass
+	
+class Illuminat(Illuminats, GroundUnit):
+	a = 0
+	def __init__(self):
+		
+		Illuminat.a += 1
+		
+		name = "Illuminat_" + str(Illuminat.a)
+		armor = 1
+		damage = 50 
+		health = 20
+		coords = [30, 40]
+		
+		Unit.__init__(self, armor, damage, health, name, coords)
+
+if __name__ == "__main__":
+	
+	allUnits = []
+	
+	targetsList = []
+	
+	Aleks = Scorpion()
+	Pavkata = Plasmodium()
+	Marto = GreenPirate()
+	
+	Marto.attack(Pavkata)
